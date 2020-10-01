@@ -7,6 +7,62 @@ const globalParams = {
     },
 }
 
+export function login (credentials) {
+    return new Promise((resolve,reject) => {
+        if (credentials.email && credentials.password) {
+            var body = {
+                email: credentials.email,
+                password: credentials.password
+            }
+
+            var params = {
+                ...globalParams,
+                method: 'POST',
+                body: JSON.stringify(body)
+            }
+            
+            fetch(URL + 'auth/login', params)
+            .then(response => response.json())
+            .then(response => {
+                console.log(response)
+                resolve(response)
+            })
+            .catch(error => reject(error))
+        } else {
+            reject('Informations manquantes')
+        }
+    })
+}
+
+export function register (user) {
+    console.log(user)
+    return new Promise((resolve, reject) => {
+        if (user.username && user.email && user.password){
+            var body = {
+                name: user.username,
+                email: user.email,
+                password : user.password
+            }
+    
+            var params = {
+                ...globalParams,
+                method: 'POST',
+                body: JSON.stringify(body)
+            }
+            
+            fetch(URL + 'auth/register', params)
+            .then(response => response.json())
+            .then(response => {
+                console.log(response)
+                resolve(response)
+            })
+            .catch(error => reject(error))
+        } else {
+            reject('Informations manquantes')
+        }
+    })
+}
+
 export function getNotes () {
     return new Promise((resolve, reject) => {
         window.fetch('https://api.myidea.fr/v1/notes')

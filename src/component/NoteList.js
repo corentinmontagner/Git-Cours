@@ -20,10 +20,6 @@ class NoteList extends React.Component {
     //}, 1000)
   }
 
-  componentWillUnmount () {
-    clearInterval(this.update)
-  }
-
   render () {
     const { notes } = this.state
     return (

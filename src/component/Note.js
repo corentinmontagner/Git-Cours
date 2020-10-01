@@ -1,16 +1,17 @@
 import React from 'react'
 import Draggable from 'react-draggable'
 import './styles/NoteStyle.css'
+
 import EditModal from '../component/EditModal'
-import { deleteNote } from '../service/Api'
-import { updateNote } from '../service/Api'
+import { deleteNote, updateNote } from '../service/Api'
 
 
 class Note extends React.Component {
   constructor(props) {
     super();
     this.state = {
-        
+        openModal: false,
+        isFavorite: false
     }
   }
 
@@ -32,23 +33,31 @@ class Note extends React.Component {
     this.setState({openModal: true})
   }
 
+  handleFavorite = (note) => {
+    updateNote(note)
+    this.setState({isFavorite: true})
+  }
+
   render () {
     const { note } = this.props
     return (
       note
         ? (
           <Draggable>
-            <div className='note' style={{ backgroundColor: this.getRandomColor() }}>
-              <span className='title'>
-                <h2>{note.title}</h2>
-              </span>
-              <button onClick={() => this.handleUpdate(note.id)}>MODIFIER</button>
-              <button onClick={() => this.handleDelete(note)}>SUPPRIMER</button>
+            <div className='note'>
+              <div className='row'>
+              <button onClick={() => this.handleFavorite(note)}>⚪️</button>
+                <span className='title'>
+                  <h2>{note.title}</h2>
+                </span>
+                <button onClick={() => this.handleDelete(note.id)}>🗑️</button>
+                <button onClick={() => this.handleUpdate(note)}>✏️</button>
+              </div>
               <div className='separator' />
               <span className='description'>
                 {note.description}
               </span>
-              <EditModal updateMode isOpen={this.state.openModal} note={note} />
+              <EditModal updateMode isOpen={this.state.openModal} note={note}/>
             </div>
           </Draggable>
         )

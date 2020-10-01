@@ -14,10 +14,14 @@ class NoteList extends React.Component {
   }
 
   componentDidMount () {
-    this.update = setInterval(() => {
+    //this.update = setInterval(() => {
       getNotes()
       .then(data => this.setState({notes: data}))
-    }, 1000)
+    //}, 1000)
+  }
+
+  componentWillUnmount () {
+    clearInterval(this.update)
   }
 
   render () {
